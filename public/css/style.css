@@ -61,6 +61,7 @@
 
 .headerr{
     background-color: var(--blue);
+
 }
 
 .header {
@@ -71,8 +72,7 @@
 }
 
 .container {
-    width: 100%;
-    max-width: 79.17%;
+    max-width: 1550px !important;
     margin: 0 auto;
     padding: 0;
 }
@@ -81,6 +81,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 28px 0;
 }
 
 .nav-buttons {
@@ -111,6 +112,10 @@
     font-size: 20px;
 }
 
+.nav-link:hover{
+    color: var(--white) !important;
+}
+
 .title{
     display: flex;
     flex-direction: column;
@@ -129,7 +134,12 @@
 }
 
 
-
+.nav-about-us{
+    font-family: inter-bold;
+    font-size: 20px;
+    color: var(--blue);
+    text-decoration: none;
+}
 
 .fifteen-years{
     max-width: 83%;
@@ -272,7 +282,7 @@
 .plusses-contain{
     display: flex;
     width: 90%;
-    gap: 160px;
+    gap: 110px;
     padding-bottom: 40px;
 }
 .plusses h1{
@@ -410,6 +420,11 @@
     color: var(--blue);
 }
 .acquaintance p{
+    margin-top: 10px;
+    font: 20px com-reg ;
+    color: var(--black);
+}
+.acquaintance ol li{
     margin-top: 10px;
     font: 20px com-reg ;
     color: var(--black);
@@ -1056,4 +1071,17 @@
     font-size: 14px;
     margin-top: 5px;
     display: block;
+}
+
+
+
+.footer{
+
+}
+
+.nav-buttons p{
+    text-decoration: none;
+    color: var(--white);
+    font-family: com-med;
+    font-size: 20px;
 }

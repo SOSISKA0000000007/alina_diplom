@@ -16,31 +16,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<header class="headerr">
+
+<footer class="headerr">
     <div class="container">
         <div class="nav-container">
-            <a href="/" class="logo"><img src="{{ asset('images/logo.svg') }}" alt="Логотип"></a>
             <nav class="nav">
                 <div class="nav-links">
                     <a href="/about-us" class="nav-link">О нас</a>
                     <a href="#tours" class="nav-link">Туры</a>
                     <a href="/rent" class="nav-link">Аренда</a>
-                    @auth
-                        @if(auth()->user()->is_admin)
-                            <a href="/admin" class="nav-link">Админ-панель</a>
-                        @endif
-                    @endauth
                 </div>
             </nav>
+            <div class="logo">
+                <a href="/"><img src="{{ asset('images/logo.svg') }}" alt="Логотип"></a>
+            </div>
             <div class="nav-buttons">
-                <button class="nav-button">Забронировать</button>
-                <button class="nav-button-profile">
-                    <img src="{{ asset('images/header_profile.svg') }}" alt="profile">
-                </button>
+                <p class="nav-copyright">©бебебебебебббебббебебеб</p>
             </div>
         </div>
-</header>
-
+    </div>
+</footer>
 
 @include('auth.register-modal')
 @include('auth.login-modal')

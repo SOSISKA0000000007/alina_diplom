@@ -27,7 +27,7 @@
                         <a href="/rent" class="nav-link">Аренда</a>
                         @auth
                             @if(auth()->user()->is_admin)
-                                <a href="/admin" class="nav-link admin-link">Админ-панель</a>
+                                <a href="/admin" class="nav-link">Админ-панель</a>
                             @endif
                         @endauth
                     </div>
@@ -40,8 +40,8 @@
                 </div>
             </div>
             <div class="title">
-                <h3>откройте для себя мир</h3>
-                <h1>дайвинга на балтике</h1>
+                <h3>ОТКРОЙТЕ ДЛЯ СЕБЯ МИР</h3>
+                <h1>ДАЙВИНГА НА БАЛТИКЕ</h1>
             </div>
         </div>
     </header>
