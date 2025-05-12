@@ -11,10 +11,11 @@ class RentalProduct extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'description', 'image', 'sizes_quantity'];
+    protected $fillable = ['name', 'price', 'description', 'images', 'sizes_quantity'];
 
     protected $casts = [
         'sizes_quantity' => 'array',
+        'images' => 'array', // Кастинг для работы с JSON-поле как с массивом
     ];
 
     public function rentals()

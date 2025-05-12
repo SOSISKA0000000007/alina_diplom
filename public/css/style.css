@@ -900,16 +900,19 @@
 }
 
 .profile-sidebar {
+    margin: 0;
 }
 
 .profile-nav {
 }
 
 .profile-nav-link {
-    display: block;
-    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
     color: var(--blue);
     text-decoration: none;
+    font: 20px com-reg;
     border-bottom: 0 solid transparent; /* Используем 0 вместо none для лучшей совместимости с анимацией */
     transition: border-bottom 0.3s ease; /* Явно указываем border-bottom и другие свойства */
 }
@@ -927,19 +930,16 @@
 }
 
 .profile-content {
-    flex-grow: 1;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 30px;
+    margin: 0;
 }
 
 /* Стили для личной информации */
 .profile-info-wrapper h2,
-.bookings-wrapper h2 {
+.bookings-wrapper h2,
+.rentals-wrapper h2{
+    font: 24px com-med;
     margin-bottom: 25px;
-    color: #333;
-    font-size: 24px;
+    color: var(--black);
 }
 
 .profile-info {
@@ -949,19 +949,24 @@
 }
 
 .profile-field {
+    margin: 0;
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
 .field-label {
+    font: 20px com-reg;
+    margin: 0;
     min-width: 100px;
-    color: #666;
+    color: var(--black);
     font-weight: 500;
 }
 
 .field-value {
-    color: #333;
+    font: 20px com-reg;
+    margin: 0;
+    color: var(--black);
     font-size: 16px;
 }
 
@@ -969,6 +974,14 @@
 .bookings-table table {
     width: 100%;
     border-collapse: collapse;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.bookings-table table tbody{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .bookings-table th,
@@ -986,6 +999,20 @@
 
 .bookings-table tr:hover {
     background: #f8f9fa;
+}
+
+.bookings-table tr {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: 0;
+}
+
+.label{
+    margin-bottom: 10px;
+}
+
+.bookings-table td{
+    font: 20px com-reg;
 }
 
 .btn-cancel {

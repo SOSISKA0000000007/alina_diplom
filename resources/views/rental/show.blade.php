@@ -3,14 +3,25 @@
 @section('content')
     <div class="rental-container">
         <div class="product-detail">
+            <div>
             <div class="product-image">
-                @if($product->image)
-                    <img src="{{ $product->image }}" alt="{{ $product->name }}">
+                @if($product->images && count($product->images) > 0)
+                    <img src="{{ Storage::url($product->images[0]) }}" alt="{{ $product->name }}">
                 @else
                     <div class="no-image">Нет изображения</div>
                 @endif
             </div>
 
+            <!-- Галерея дополнительных изображений -->
+            @if($product->images && count($product->images) > 1)
+                <div class="image-gallery">
+                    @foreach($product->images as $image)
+                        <img src="{{ Storage::url($image) }}" alt="{{ $product->name }}" class="gallery-image">
+                    @endforeach
+                </div>
+            @endif
+
+            </div>
             <div class="product-info">
                 <h1>{{ $product->name }}</h1>
                 <p class="price">{{ $product->price }} ₽</p>
@@ -134,9 +145,8 @@
 
         .product-image {
             width: 100%;
-            height: 400px;
+            height: 620px;
             background: #f8f9fa;
-            border-radius: 8px;
             overflow: hidden;
         }
 
@@ -156,6 +166,25 @@
             font-size: 1.5em;
         }
 
+        .image-gallery {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            height: 300px;
+        }
+
+        .gallery-image {
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .gallery-image:hover {
+            opacity: 0.8;
+        }
+
         .product-info h1 {
             margin: 0 0 20px 0;
             color: var(--black);
@@ -163,11 +192,18 @@
             font-size: 24px;
         }
 
-        .price {
-            font-family: com-bold;
-            font-size: 36px;
-            color: var(--blue);
+        .product-info p {
             margin: 0 0 20px 0;
+            color: var(--black);
+            font-family: com-reg;
+            font-size: 16px;
+        }
+
+        .price {
+            font-family: com-bold !important;
+            font-size: 36px !important;
+            color: var(--blue) !important;
+            margin: 0 0 20px 0 !important;
         }
 
         .rent-form {
@@ -213,6 +249,7 @@
             cursor: pointer;
             font-size: 1em;
             transition: all 0.3s;
+            margin: 0;
         }
 
         .size-button.available {
@@ -516,6 +553,8 @@
             const submitBtn = document.querySelector('.btn-rent');
             const clearBtn = document.querySelector('.btn-clear');
             const quantityAvailable = document.querySelector('.quantity-available');
+            const galleryImages = document.querySelectorAll('.gallery-image');
+            const mainImage = document.querySelector('.product-image img');
 
             let selectedSize = null;
             let maxQuantity = 0;
@@ -762,6 +801,15 @@
             });
 
             updateQuantityButtons();
+
+            // Переключение изображений в галерее
+            galleryImages.forEach(image => {
+                image.addEventListener('click', function() {
+                    if (mainImage) {
+                        mainImage.src = this.src;
+                    }
+                });
+            });
 
             // Tabs functionality
             document.querySelectorAll('.tab-button').forEach(button => {

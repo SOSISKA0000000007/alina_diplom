@@ -4,28 +4,31 @@
     <div class="rentals-wrapper">
         <h2>Аренда аксессуаров</h2>
 
-        <div class="rentals-table">
+        <div class="rentals-table bookings-table">
             <table>
-                <thead>
-                <tr>
-                    <th>Тип</th>
-                    <th>Название</th>
-                    <th>Период</th>
-                    <th>Размер</th>
-                    <th>Стоимость</th>
-                    <th></th>
-                </tr>
-                </thead>
                 <tbody>
                 @forelse($rentals as $rental)
                     <tr>
-                        <td>Одежда</td>
-                        <td>{{ $rental->product->name }}</td>
                         <td>
+                            <span class="label">Тип</span><br>
+                            Одежда
+                        </td>
+                        <td>
+                            <span class="label">Название</span><br>
+                            {{ $rental->product->name }}
+                        </td>
+                        <td>
+                            <span class="label">Период</span><br>
                             {{ $rental->start_date->format('d.m.Y') }} - {{ $rental->end_date->format('d.m.Y') }}
                         </td>
-                        <td>{{ strtoupper($rental->size) }}</td>
-                        <td>{{ number_format($rental->total_price, 0, ',', ' ') }} ₽</td>
+                        <td>
+                            <span class="label">Размер</span><br>
+                            {{ strtoupper($rental->size) }}
+                        </td>
+                        <td>
+                            <span class="label">Стоимость</span><br>
+                            {{ number_format($rental->total_price, 0, ',', ' ') }} ₽
+                        </td>
 {{--                        <td>--}}
 {{--                            <form method="POST" action="{{ route('rental.cancel', $rental->id) }}" class="cancel-rental-form">--}}
 {{--                                @csrf--}}
@@ -66,10 +69,6 @@
             background-color: #f8f9fa;
             font-weight: bold;
             color: #333;
-        }
-
-        .rentals-table td {
-            color: #666;
         }
 
         .no-rentals {
