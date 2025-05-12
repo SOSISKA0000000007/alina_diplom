@@ -49,7 +49,7 @@
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: var(--blue);
     color: white;
     padding: 10px 20px;
     border: none;
@@ -58,7 +58,7 @@
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: var(--blue);
 }
 </style>
 @endsection
