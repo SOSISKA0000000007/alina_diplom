@@ -10,23 +10,23 @@
                 @forelse($rentals as $rental)
                     <tr>
                         <td>
-                            <span class="label">Тип</span><br>
+                            <span class="label">Тип</span><br><br>
                             Одежда
                         </td>
                         <td>
-                            <span class="label">Название</span><br>
+                            <span class="label">Название</span><br><br>
                             {{ $rental->product->name }}
                         </td>
                         <td>
-                            <span class="label">Период</span><br>
+                            <span class="label">Период</span><br><br>
                             {{ $rental->start_date->format('d.m.Y') }} - {{ $rental->end_date->format('d.m.Y') }}
                         </td>
                         <td>
-                            <span class="label">Размер</span><br>
+                            <span class="label">Размер</span><br><br>
                             {{ strtoupper($rental->size) }}
                         </td>
                         <td>
-                            <span class="label">Стоимость</span><br>
+                            <span class="label">Стоимость</span><br><br>
                             {{ number_format($rental->total_price, 0, ',', ' ') }} ₽
                         </td>
 {{--                        <td>--}}

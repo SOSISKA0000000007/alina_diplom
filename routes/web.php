@@ -72,5 +72,22 @@ Route::get('/about-us', function () {
     return view('about-us');
 })->name('about.us');
 
+// Маршруты для статичных страниц туров
+Route::get('/tours/tour-1', function () {
+    return view('tours.tour-1');
+})->name('tours.tour-1');
+Route::get('/tours/tour-2', function () {
+    return view('tours.tour-2');
+})->name('tours.tour-2');
+Route::get('/tours/tour-3', function () {
+    return view('tours.tour-3');
+})->name('tours.tour-3');
+Route::get('/tours/tour-4', function () {
+    return view('tours.tour-4');
+})->name('tours.tour-4');
+Route::get('/tours/tour-5', function () {
+    return view('tours.tour-5');
+})->name('tours.tour-5');
+
 // API маршруты
 Route::get('/api/available-places/{dateId}', [App\Http\Controllers\Api\TourDateController::class, 'getAvailablePlaces']);

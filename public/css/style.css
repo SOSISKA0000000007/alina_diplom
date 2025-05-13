@@ -1126,3 +1126,79 @@
     font-family: com-med;
     font-size: 20px;
 }
+
+.program{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.program-h2{
+    font: 48px yes-bold;
+    color: var(--blue);
+}
+.program p{
+    font: 20px com-reg;
+    color: var(--blue);
+}
+
+.accommodation h2{
+    font: 48px yes-semi;
+    color:var(--blue);
+    text-align: center;
+    margin: 30px 0;
+}
+.place-of-residence-wrapper{
+    display: flex;
+}
+.diving-schedule h2{
+    font: 48px yes-bold;
+    color: var(--blue);
+    margin: 30px 0;
+}
+.schedule h3{
+    font: 24px com-bold;
+    color: var(--blue);
+}
+.schedule li{
+font: 20px com-reg;
+    color: var(--blue);
+    line-height: 40px;
+}
+
+.price-tour{
+    background-image: url(../images/background-tour.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.price-tour-price{
+    padding: 143px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.price-tour-price h2{
+    font: 64px yes-bold;
+    color: var(--white);
+    margin: 0;
+}
+.price-tour-price s{
+    font: 64px yes-bold;
+    color: var(--white);
+    margin: 0;
+}
+.price-tour-price p{
+    font: 96px yes-bold;
+    color: var(--white);
+    margin: 0;
+}
+.price-tour-price h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 10px; /* Space between prices */
+}
+
+.price-tour-price .original-price {
+    text-decoration: line-through; /* Strike-through for original price */
+}
+
+
