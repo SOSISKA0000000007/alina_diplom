@@ -255,6 +255,8 @@
     color: var(--white);
     padding: 10px 13px;
     margin: 0;
+    font: 16px inter-semi;
+    text-decoration: none;
 }
 .tours-card-description{
     font-family: com-reg;
