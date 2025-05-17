@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="container">
-        <h1>Создать инструктора</h1>
+        <div class="admin-layout">
+        @include('components.admin-sidebar')
+
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -10,36 +12,36 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.instructors.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.instructors.store') }}" method="POST" enctype="multipart/form-data" class="admin-form container">
             @csrf
 
-            <div class="mb-3">
-                <label for="name" class="form-label">Имя</label>
-                <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
+            <div class="admin-form-container">
+                <label for="name" class="admin-label">Имя</label>
+                <input type="text" name="name" id="name" class="admin-input" value="{{ old('name') }}" required>
                 @error('name')
                 <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div class="mb-3">
-                <label for="experience" class="form-label">Опыт</label>
-                <textarea name="experience" id="experience" class="form-control" rows="4" required>{{ old('experience') }}</textarea>
+            <div class="admin-form-container">
+                <label for="experience" class="admin-label">Опыт</label>
+                <textarea name="experience" id="experience" class="admin-input" rows="4" required>{{ old('experience') }}</textarea>
                 @error('experience')
                 <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div class="mb-3">
-                <label for="about" class="form-label">О себе</label>
-                <textarea name="about" id="about" class="form-control" rows="6" required>{{ old('about') }}</textarea>
+            <div class="admin-form-container">
+                <label for="about" class="admin-label">О себе</label>
+                <textarea name="about" id="about" class="admin-input" rows="6" required>{{ old('about') }}</textarea>
                 @error('about')
                 <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div class="mb-3">
-                <label for="photo" class="form-label">Фотография</label>
-                <input type="file" name="photo" id="photo" class="form-control" accept="image/*">
+            <div class="admin-form-container">
+                <label for="photo" class="admin-label">Фотография</label>
+                <input type="file" name="photo" id="photo" class="admin-input-photo" accept="image/*">
                 @error('photo')
                 <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -47,5 +49,6 @@
 
             <button type="submit" class="btn btn-primary">Создать</button>
         </form>
+        </div>
     </div>
 @endsection

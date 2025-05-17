@@ -1,41 +1,27 @@
-<div class="admin-sidebar">
-    <nav class="admin-nav">
-        <ul>
-            <li>
-                <a href="{{ route('admin.rental-products.create') }}" class="admin-nav-link">
-                    <span>Создать товар</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admin.tours.create') }}" class="admin-nav-link">
-                    <span>Создать тур</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admin.instructors.create') }}" class="admin-nav-link">
-                    <span>Создать инструктора</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admin.rentals.index') }}" class="admin-nav-link">
-                    <span>Управление арендой</span>
-                </a>
-            </li>
-        </ul>
+<div class="profile-sidebar">
+    <nav class="profile-nav">
+        <a href="{{ route('admin.rental-products.create') }}" class="profile-nav-link  {{ request()->routeIs('admin.rental-products.create') ? 'active' : '' }}">
+            Создать товар
+        </a>
+{{--        <a href="{{ route('admin.tours.create') }}" class="profile-nav-link  {{ request()->routeIs('admin.tours.create') ? 'active' : '' }}">--}}
+{{--            Создать тур--}}
+{{--        </a>--}}
+        <a href="{{ route('admin.instructors.create') }}" class="profile-nav-link  {{ request()->routeIs('admin.instructors.create') ? 'active' : '' }}">
+            Создать инструктора
+        </a>
+        <a href="{{ route('admin.rentals.index') }}" class="profile-nav-link  {{ request()->routeIs('admin.rentals.index') ? 'active' : '' }}">
+            Управление арендой
+        </a>
+        <a href="{{ route('admin.bookings.index') }}" class="profile-nav-link  {{ request()->routeIs('admin.bookings.index') ? 'active' : '' }}">
+            Управление бронированиями
+        </a>
+        <a href="{{ route('admin.rental-products.index') }}" class="profile-nav-link  {{ request()->routeIs('admin.rental-products.index') ? 'active' : '' }}">
+            Редактировать товар
+        </a>
     </nav>
 </div>
 
 <style>
-.admin-sidebar {
-    width: 250px;
-    background-color: #f8f9fa;
-    padding: 20px;
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-    border-right: 1px solid #dee2e6;
-}
 
 .admin-nav ul {
     list-style: none;

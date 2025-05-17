@@ -1062,7 +1062,6 @@
     align-items: center;
     gap: 10px;
     padding: 8px;
-    background: #f8f9fa;
     border-radius: 4px;
 }
 
@@ -1558,4 +1557,90 @@
 
 .price-tour-price .original-price {
     text-decoration: line-through;
+}
+
+.admin-form{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 50px;
+}
+.admin-layout {
+    display: flex;
+    gap: 50px;
+    min-height: 100vh;
+}
+
+.admin-form-container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 10px;
+}
+
+.admin-label{
+    font: 20px com-reg;
+    margin: 0;
+}
+.admin-input{
+    border: 1px solid rgba(207, 207, 207, 1);
+    border-radius: 4px;
+    padding: 8px 0px;
+    margin: 0;
+    width: 100%;
+    font: 20px com-reg;
+}
+.admin-size{
+    display: flex;
+    gap: 10px;
+    margin: 0;
+}
+#sizes-container{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.admin-select{
+    border: 1px solid rgba(207, 207, 207, 1);
+    border-radius: 4px;
+    padding: 8px 0px;
+    margin: 0;
+    font: 20px com-reg;
+}
+.admin-form-button{
+    background: var(--blue);
+    color: white;
+    font: 20px com-reg;
+    border-radius: 4px;
+    border: none;
+    padding: 10px;
+    text-decoration: none;
+}
+.admin-input-photo{
+    margin: 0;
+    width: 100%;
+    font: 20px com-reg;
+}
+.admin-form-button-create{
+    background: var(--blue);
+    color: white;
+    font: 20px com-reg;
+    border-radius: 4px;
+    border: none;
+    padding: 10px;
+    width: 100%;
+}
+.admin-button-container{
+    margin: 0;
+}
+.d-inline{
+    margin: 5px 0;
+}
+.bookings-wrapper{
+    margin: 0;
+}
+.admin-form-delite{
+    display: flex;
+    gap: 10px;
 }
