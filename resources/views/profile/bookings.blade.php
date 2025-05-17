@@ -31,16 +31,32 @@
                             {{ number_format($booking->people_count * $booking->tour->prices->first()->regular_price, 0, ',', ' ') }} ₽
                         </td>
                         <td>
-                            <form method="POST" action="{{ route('booking.cancel', $booking->id) }}" class="cancel-booking-form">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn-cancel">ОТМЕНИТЬ</button>
-                            </form>
+                            <span class="label">Статус</span><br><br>
+                            @switch($booking->status)
+                                @case('pending')
+                                    Ожидает подтверждения
+                                    @break
+                                @case('confirmed')
+                                    Подтверждено
+                                    @break
+                                @case('rejected')
+                                    Отклонено
+                                    @break
+                            @endswitch
+                        </td>
+                        <td>
+                            @if($booking->status === 'pending')
+                                <form method="POST" action="{{ route('booking.cancel', $booking->id) }}" class="cancel-booking-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-cancel">ОТМЕНИТЬ</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="no-bookings">У вас нет забронированных туров</td>
+                        <td colspan="7" class="no-bookings">У вас нет забронированных туров</td>
                     </tr>
                 @endforelse
                 </tbody>

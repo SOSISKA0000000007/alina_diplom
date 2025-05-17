@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Tour;
 use App\Models\TourDate;
 use App\Models\Price;
+use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -85,5 +87,35 @@ class AdminController extends Controller
     {
         $rentals = \App\Models\Rental::with(['user', 'product'])->latest()->get();
         return view('admin.rentals.index', compact('rentals'));
+    }
+
+    public function bookings()
+    {
+        $bookings = Booking::with(['user', 'tour', 'tourDate'])->latest()->get();
+        return view('admin.bookings.index', compact('bookings'));
+    }
+
+    public function confirmBooking(Booking $booking)
+    {
+        if ($booking->status === 'pending') {
+            $booking->update(['status' => 'confirmed']);
+            Log::info('Booking confirmed', ['booking_id' => $booking->id]);
+            return back()->with('success', 'Бронирование успешно подтверждено');
+        }
+
+        Log::warning('Cannot confirm booking', ['booking_id' => $booking->id, 'status' => $booking->status]);
+        return back()->with('error', 'Невозможно подтвердить это бронирование');
+    }
+
+    public function rejectBooking(Booking $booking)
+    {
+        if ($booking->status === 'pending') {
+            $booking->update(['status' => 'rejected']);
+            Log::info('Booking rejected', ['booking_id' => $booking->id]);
+            return back()->with('success', 'Бронирование отклонено');
+        }
+
+        Log::warning('Cannot reject booking', ['booking_id' => $booking->id, 'status' => $booking->status]);
+        return back()->with('error', 'Невозможно отклонить это бронирование');
     }
 }

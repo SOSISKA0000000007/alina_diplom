@@ -14,6 +14,7 @@ class Booking extends Model
         'tour_id',
         'tour_date_id',
         'people_count',
+        'status'
     ];
 
     public function user()
@@ -30,4 +31,4 @@ class Booking extends Model
     {
         return $this->belongsTo(TourDate::class);
     }
-} 
+}

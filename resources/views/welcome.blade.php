@@ -1,6 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.welcomehead')
 
 @section('content')
+    @php
+        \Carbon\Carbon::setLocale('ru');
+    @endphp
+
     <section class="container">
         <div class="fifteen-years">
             <h1>15 ЛЕТ ПОГРУЖАЕМ ВАС В МИР ЭКСТРИМА</h1>
@@ -27,7 +31,7 @@
                                     <div class="tours-card-header">
                                         <div class="tours-card-date">
                                             @if($tour->dates->first())
-                                                <p>{{ \Carbon\Carbon::parse($tour->dates->first()->start_date)->format('d F Y') }}-{{ \Carbon\Carbon::parse($tour->dates->first()->end_date)->format('d F Y') }}</p>
+                                                <p>{{ \Illuminate\Support\Str::upper(\Carbon\Carbon::parse($tour->dates->first()->start_date)->translatedFormat('d F Y')) }}-{{ \Illuminate\Support\Str::upper(\Carbon\Carbon::parse($tour->dates->first()->end_date)->translatedFormat('d F Y')) }}</p>
                                             @endif
                                         </div>
                                         <div class="tours-card-group">
@@ -59,7 +63,7 @@
                                     <div class="tours-card-header">
                                         <div class="tours-card-date">
                                             @if($tour->dates->first())
-                                                <p>{{ \Carbon\Carbon::parse($tour->dates->first()->start_date)->format('d F Y') }}-{{ \Carbon\Carbon::parse($tour->dates->first()->end_date)->format('d F Y') }}</p>
+                                                <p>{{ \Illuminate\Support\Str::upper(\Carbon\Carbon::parse($tour->dates->first()->start_date)->translatedFormat('d F Y')) }}-{{ \Illuminate\Support\Str::upper(\Carbon\Carbon::parse($tour->dates->first()->end_date)->translatedFormat('d F Y')) }}</p>
                                             @endif
                                         </div>
                                         <div class="tours-card-group">
@@ -133,8 +137,8 @@
                                     <div class="instructor-card" style="background-image: url('{{ $instructor->photo ? asset('storage/' . $instructor->photo) : 'https://via.placeholder.com/300' }}')">
                                         <div class="instructor-overlay">
                                             <h3>{{ $instructor->name }}</h3>
-                                            <p><strong>Опыт:</strong> {{ Str::limit($instructor->experience, 100) }}</p>
-                                            <p><strong>О себе:</strong> {{ Str::limit($instructor->about, 150) }}</p>
+                                            <p>Опыт: {{ Str::limit($instructor->experience, 100) }}</p>
+                                            <p>О себе: {{ Str::limit($instructor->about, 150) }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -143,8 +147,6 @@
                         <!-- Навигация -->
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-button-next"></div>
-                        <!-- Пагинация -->
-                        <div class="swiper-pagination"></div>
                     </div>
                 @else
                     <!-- Статический ряд для 4 или менее инструкторов -->
@@ -154,8 +156,8 @@
                                 <div class="instructor-card" style="background-image: url('{{ $instructor->photo ? asset('storage/' . $instructor->photo) : 'https://via.placeholder.com/300' }}')">
                                     <div class="instructor-overlay">
                                         <h3>{{ $instructor->name }}</h3>
-                                        <p><strong>Опыт:</strong> {{ Str::limit($instructor->experience, 100) }}</p>
-                                        <p><strong>О себе:</strong> {{ Str::limit($instructor->about, 150) }}</p>
+                                        <p>Опыт: {{ Str::limit($instructor->experience, 100) }}</p>
+                                        <p>О себе: {{ Str::limit($instructor->about, 150) }}</p>
                                     </div>
                                 </div>
                             </div>

@@ -68,6 +68,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/instructors', [AdminInstructorController::class, 'store'])->name('admin.instructors.store');
 });
 
+// Маршруты админ-панели
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/rentals', [AdminController::class, 'rentals'])->name('admin.rentals.index');
+    Route::get('/admin/bookings', [AdminController::class, 'bookings'])->name('admin.bookings.index');
+    Route::post('/admin/bookings/{booking}/confirm', [AdminController::class, 'confirmBooking'])->name('admin.bookings.confirm');
+    Route::post('/admin/bookings/{booking}/reject', [AdminController::class, 'rejectBooking'])->name('admin.bookings.reject');
+    // ... остальные маршруты админ-панели ...
+});
+
 Route::get('/about-us', function () {
     return view('about-us');
 })->name('about.us');

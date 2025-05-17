@@ -35,6 +35,7 @@ class BookingController extends Controller
         $booking->tour_id = $request->tour_id;
         $booking->tour_date_id = $request->date_id;
         $booking->people_count = $request->people_count;
+        $booking->status = 'pending';
         $booking->save();
 
         return response()->json([
@@ -55,4 +56,4 @@ class BookingController extends Controller
             ->route('profile.bookings')
             ->with('success', 'Бронирование успешно отменено');
     }
-} 
+}

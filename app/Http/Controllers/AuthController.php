@@ -41,7 +41,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return response()->json(['success' => true]);
+        return redirect('/');
     }
 
     public function login(Request $request)
@@ -53,7 +53,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return response()->json(['success' => true]);
+            return redirect('/');
         }
 
         return response()->json([
@@ -67,7 +67,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect('/');
     }
 }

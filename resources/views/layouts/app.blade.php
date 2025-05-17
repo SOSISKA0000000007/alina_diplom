@@ -44,9 +44,6 @@
         </div>
     </header>
 
-    <main class="main">
-        @yield('content')
-    </main>
 
     @include('auth.register-modal')
     @include('auth.login-modal')
