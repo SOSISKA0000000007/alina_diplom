@@ -33,6 +33,19 @@
                 </div>
 
                 <div class="admin-form-container">
+                    <label for="type" class="admin-label">Тип товара</label>
+                    <select name="type" id="type" class="admin-select" required>
+                        <option value="">Выберите тип</option>
+                        @foreach ($types as $type)
+                            <option value="{{ $type }}" {{ old('type') == $type ? 'selected' : '' }}>{{ $type }}</option>
+                        @endforeach
+                    </select>
+                    @error('type')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="admin-form-container">
                     <label for="price" class="admin-label">Цена</label>
                     <input type="number" step="0.01" name="price" id="price" class="admin-input" value="{{ old('price') }}" required>
                     @error('price')

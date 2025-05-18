@@ -6,8 +6,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\Admin\AdminInstructorController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +21,14 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
+
+// Маршруты аренды (общедоступные)
+Route::get('/rent/filter-products', [RentalController::class, 'filter'])->name('rent.filter');
 Route::get('/rent', [RentalController::class, 'index'])->name('rent.index');
 Route::get('/rent/{product}', [RentalController::class, 'show'])->name('rent.show');
+Route::post('/rent/{product}/check-availability', [RentalController::class, 'checkAvailability'])->name('rent.check-availability');
 Route::post('/rent/{product}', [RentalController::class, 'store'])->name('rent.store');
-Route::post('/rent/{product}/check-availability', [RentalController::class, 'checkAvailability'])->name('rent.checkAvailability');
-Route::post('/rent/{product}/review', [RentalController::class, 'storeReview'])->name('rent.review.store')->middleware('auth');
+Route::post('/rent/{product}/reviews', [RentalController::class, 'storeReview'])->name('rent.reviews.store')->middleware('auth');
 Route::get('/rent/{product}/reviews', [RentalController::class, 'getReviews'])->name('rent.reviews');
 
 // Маршруты авторизации
@@ -51,6 +54,9 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/admin/rentals', [AdminController::class, 'rentals'])->name('admin.rentals.index');
+    Route::get('/admin/bookings', [AdminController::class, 'bookings'])->name('admin.bookings.index');
+    Route::post('/admin/bookings/{booking}/confirm', [AdminController::class, 'confirmBooking'])->name('admin.bookings.confirm');
+    Route::post('/admin/bookings/{booking}/reject', [AdminController::class, 'rejectBooking'])->name('admin.bookings.reject');
     Route::get('/admin/tours/create', [AdminController::class, 'createTour'])->name('admin.tours.create');
     Route::post('/admin/tours', [AdminController::class, 'storeTour'])->name('admin.tours.store');
     Route::post('/admin/tours/{tour}/dates', [AdminController::class, 'storeTourDate'])->name('admin.tours.dates.store');
@@ -68,21 +74,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/instructors', [AdminInstructorController::class, 'store'])->name('admin.instructors.store');
 });
 
-// Маршруты админ-панели
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/admin/rentals', [AdminController::class, 'rentals'])->name('admin.rentals.index');
-    Route::get('/admin/bookings', [AdminController::class, 'bookings'])->name('admin.bookings.index');
-    Route::post('/admin/bookings/{booking}/confirm', [AdminController::class, 'confirmBooking'])->name('admin.bookings.confirm');
-    Route::post('/admin/bookings/{booking}/reject', [AdminController::class, 'rejectBooking'])->name('admin.bookings.reject');
-    // ... остальные маршруты админ-панели ...
-});
-
+// Маршруты для статичных страниц
 Route::get('/about-us', function () {
     return view('about-us');
 })->name('about.us');
 
-// Маршруты для статичных страниц туров
 Route::get('/tours/tour-1', function () {
     return view('tours.tour-1');
 })->name('tours.tour-1');

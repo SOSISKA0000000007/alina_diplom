@@ -34,6 +34,19 @@
             </div>
 
             <div class="mb-4">
+                <label for="type" class="block text-gray-700 text-sm font-bold mb-2">Тип товара</label>
+                <select name="type" id="type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <option value="">Выберите тип</option>
+                    @foreach ($types as $type)
+                        <option value="{{ $type }}" {{ old('type', $rentalProduct->type) == $type ? 'selected' : '' }}>{{ $type }}</option>
+                    @endforeach
+                </select>
+                @error('type')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-4">
                 <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Описание товара</label>
                 <textarea name="description" id="description" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>{{ old('description', $rentalProduct->description) }}</textarea>
                 @error('description')
@@ -111,17 +124,17 @@
                 const sizeDiv = document.createElement('div');
                 sizeDiv.className = 'flex gap-4 mb-2';
                 sizeDiv.innerHTML = `
-            <select name="sizes[]" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <option value="xs">XS</option>
-                <option value="s">S</option>
-                <option value="m">M</option>
-                <option value="l">L</option>
-                <option value="xl">XL</option>
-                <option value="xxl">XXL</option>
-            </select>
-            <input type="number" name="quantities[]" min="1" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Количество">
-            <button type="button" class="remove-size bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Удалить</button>
-        `;
+                    <select name="sizes[]" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="xs">XS</option>
+                        <option value="s">S</option>
+                        <option value="m">M</option>
+                        <option value="l">L</option>
+                        <option value="xl">XL</option>
+                        <option value="xxl">XXL</option>
+                    </select>
+                    <input type="number" name="quantities[]" min="1" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Количество">
+                    <button type="button" class="remove-size bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Удалить</button>
+                `;
                 sizesContainer.appendChild(sizeDiv);
             });
 

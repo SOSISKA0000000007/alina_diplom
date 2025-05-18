@@ -10,31 +10,39 @@ use Illuminate\Support\Facades\Storage;
 
 class RentalProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private $validTypes = [
+        'Аксессуары',
+        'Боты и носки',
+        'Гидрокостюмы',
+        'Компенсаторы',
+        'Ласты для дайвинга',
+        'Маски',
+        'Перчатки',
+        'Фонари',
+        'Утеплители',
+        'Экстрим-камеры',
+        'Комплекты',
+        'Трубки и аксессуары',
+    ];
+
     public function index()
     {
         $products = RentalProduct::all();
         return view('admin.rental-products.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('admin.rental-products.create');
+        $types = $this->validTypes;
+        return view('admin.rental-products.create', compact('types'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
+                'type' => 'required|string|in:' . implode(',', $this->validTypes),
                 'description' => 'required|string',
                 'price' => 'required|numeric|min:0',
                 'images' => 'nullable|array',
@@ -67,6 +75,7 @@ class RentalProductController extends Controller
 
             $product = RentalProduct::create([
                 'name' => $validated['name'],
+                'type' => $validated['type'],
                 'description' => $validated['description'],
                 'price' => $validated['price'],
                 'images' => $imagePaths,
@@ -85,30 +94,23 @@ class RentalProductController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         // Реализуйте, если нужно
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(RentalProduct $rentalProduct)
     {
-        return view('admin.rental-products.edit', compact('rentalProduct'));
+        $types = $this->validTypes;
+        return view('admin.rental-products.edit', compact('rentalProduct', 'types'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, RentalProduct $rentalProduct)
     {
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
+                'type' => 'required|string|in:' . implode(',', $this->validTypes),
                 'description' => 'required|string',
                 'price' => 'required|numeric|min:0',
                 'images' => 'nullable|array',
@@ -128,7 +130,6 @@ class RentalProductController extends Controller
 
             $imagePaths = $rentalProduct->images ?? [];
             if ($request->hasFile('images')) {
-                // Удаляем старые изображения, если загружаются новые
                 foreach ($imagePaths as $oldImage) {
                     Storage::disk('public')->delete($oldImage);
                 }
@@ -146,6 +147,7 @@ class RentalProductController extends Controller
 
             $rentalProduct->update([
                 'name' => $validated['name'],
+                'type' => $validated['type'],
                 'description' => $validated['description'],
                 'price' => $validated['price'],
                 'images' => $imagePaths,
@@ -164,13 +166,9 @@ class RentalProductController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(RentalProduct $rentalProduct)
     {
         try {
-            // Удаляем все изображения, связанные с товаром
             if ($rentalProduct->images) {
                 foreach ($rentalProduct->images as $image) {
                     Storage::disk('public')->delete($image);

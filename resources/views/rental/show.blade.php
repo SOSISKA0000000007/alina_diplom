@@ -4,23 +4,22 @@
     <div class="rental-container">
         <div class="product-detail">
             <div>
-            <div class="product-image">
-                @if($product->images && count($product->images) > 0)
-                    <img src="{{ Storage::url($product->images[0]) }}" alt="{{ $product->name }}">
-                @else
-                    <div class="no-image">Нет изображения</div>
-                @endif
-            </div>
-
-            <!-- Галерея дополнительных изображений -->
-            @if($product->images && count($product->images) > 1)
-                <div class="image-gallery">
-                    @foreach($product->images as $image)
-                        <img src="{{ Storage::url($image) }}" alt="{{ $product->name }}" class="gallery-image">
-                    @endforeach
+                <div class="product-image">
+                    @if($product->images && count($product->images) > 0)
+                        <img src="{{ Storage::url($product->images[0]) }}" alt="{{ $product->name }}">
+                    @else
+                        <div class="no-image">Нет изображения</div>
+                    @endif
                 </div>
-            @endif
 
+                <!-- Галерея дополнительных изображений -->
+                @if($product->images && count($product->images) > 1)
+                    <div class="image-gallery">
+                        @foreach($product->images as $image)
+                            <img src="{{ Storage::url($image) }}" alt="{{ $product->name }}" class="gallery-image">
+                        @endforeach
+                    </div>
+                @endif
             </div>
             <div class="product-info">
                 <h1>{{ $product->name }}</h1>
@@ -610,7 +609,7 @@
                 availabilityMessage.className = 'availability-message';
                 availabilityMessage.textContent = 'Проверка доступности...';
 
-                fetch('{{ route('rent.checkAvailability', $product) }}', {
+                fetch('{{ route('rent.check-availability', $product) }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -884,7 +883,7 @@
                     const formData = new FormData(reviewForm);
                     const reviewMessage = document.querySelector('.review-message');
 
-                    fetch('{{ route('rent.review.store', $product) }}', {
+                    fetch('{{ route('rent.reviews.store', $product) }}', {
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,

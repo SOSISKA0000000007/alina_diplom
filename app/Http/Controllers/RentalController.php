@@ -14,10 +14,104 @@ use Carbon\Carbon;
 
 class RentalController extends Controller
 {
-    public function index()
+    private $validTypes = [
+        'Аксессуары',
+        'Боты и носки',
+        'Гидрокостюмы',
+        'Компенсаторы',
+        'Ласты для дайвинга',
+        'Маски',
+        'Перчатки',
+        'Фонари',
+        'Утеплители',
+        'Экстрим-камеры',
+        'Комплекты',
+        'Трубки и аксессуары',
+    ];
+
+    public function index(Request $request)
     {
-        $products = RentalProduct::all();
-        return view('rental.index', compact('products'));
+        $query = RentalProduct::query();
+        $selectedType = $request->query('type');
+        $sort = $request->query('sort');
+
+        if ($selectedType && in_array($selectedType, $this->validTypes)) {
+            $query->where('type', $selectedType);
+        }
+
+        if ($sort) {
+            [$sortBy, $sortOrder] = explode('_', $sort);
+            if (in_array($sortBy, ['name', 'price']) && in_array($sortOrder, ['asc', 'desc'])) {
+                $query->orderBy($sortBy, $sortOrder);
+            }
+        }
+
+        $products = $query->get();
+        $types = $this->validTypes;
+
+        return view('rental.index', compact('products', 'types', 'selectedType'));
+    }
+
+    public function filter(Request $request)
+    {
+        try {
+            $selectedType = $request->query('type');
+            $sort = $request->query('sort');
+
+            Log::info('Filter request received', [
+                'type' => $selectedType,
+                'sort' => $sort,
+                'ip' => $request->ip(),
+                'url' => $request->fullUrl(),
+            ]);
+
+            $query = RentalProduct::query();
+            if ($selectedType && in_array($selectedType, $this->validTypes)) {
+                $query->where('type', $selectedType);
+            }
+
+            if ($sort) {
+                [$sortBy, $sortOrder] = explode('_', $sort);
+                if (in_array($sortBy, ['name', 'price']) && in_array($sortOrder, ['asc', 'desc'])) {
+                    $query->orderBy($sortBy, $sortOrder);
+                } else {
+                    Log::warning('Invalid sort parameter', ['sort' => $sort]);
+                }
+            }
+
+            $products = $query->get();
+
+            if (!view()->exists('rental.partials.products')) {
+                Log::error('View rental.partials.products does not exist');
+                return response()->json([
+                    'message' => 'Шаблон для товаров не найден',
+                ], 500);
+            }
+
+            $html = view('rental.partials.products', compact('products'))->render();
+
+            Log::info('Filter response prepared', [
+                'product_count' => $products->count(),
+                'type' => $selectedType,
+                'sort' => $sort,
+            ]);
+
+            return response()->json([
+                'html' => $html,
+                'selectedType' => $selectedType ?: null,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error in filter method', [
+                'error' => $e->getMessage(),
+                'type' => $selectedType,
+                'sort' => $sort,
+                'stack' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'message' => 'Ошибка при фильтрации товаров: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function show(RentalProduct $product)

@@ -11,23 +11,55 @@ class RentalProduct extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'description', 'images', 'sizes_quantity'];
-
-    protected $casts = [
-        'sizes_quantity' => 'array',
-        'images' => 'array', // Кастинг для работы с JSON-поле как с массивом
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'type',
+        'price',
+        'description',
+        'images',
+        'sizes_quantity',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'sizes_quantity' => 'array',
+        'images' => 'array',
+    ];
+
+    /**
+     * Get the rentals associated with the product.
+     */
     public function rentals()
     {
         return $this->hasMany(Rental::class, 'rental_product_id');
     }
 
+    /**
+     * Get the reviews associated with the product.
+     */
     public function reviews()
     {
         return $this->hasMany(Review::class, 'rental_product_id');
     }
 
+    /**
+     * Check if the product is available for the given dates, size, and quantity.
+     *
+     * @param Carbon $startDate
+     * @param Carbon $endDate
+     * @param string $size
+     * @param int $quantity
+     * @return bool
+     */
     public function isAvailableForDates(Carbon $startDate, Carbon $endDate, string $size, int $quantity)
     {
         $totalAvailable = $this->sizes_quantity[$size] ?? 0;
