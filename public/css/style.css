@@ -1222,7 +1222,7 @@
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 8px;
+    padding: 8px 0;
     background-color: #F1ECEC;
     border-radius: 4px;
     font-size: 14px;
