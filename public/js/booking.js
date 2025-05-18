@@ -1,4 +1,6 @@
+
 document.addEventListener('DOMContentLoaded', function() {
+
     const bookingModal = document.getElementById('bookingModal');
     const bookingForm = document.getElementById('bookingForm');
     const tourSelect = document.getElementById('tour_id');
@@ -11,6 +13,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorMessage = document.createElement('div');
     errorMessage.className = 'error-message';
     bookingForm.appendChild(errorMessage);
+
+
+    if (window.bookingInitialized) {
+        console.warn('booking.js уже инициализирован — повторное выполнение остановлено');
+        return;
+    }
+    window.bookingInitialized = true;
+
 
     console.log('Элементы найдены:', {
         bookingModal,
@@ -34,11 +44,11 @@ document.addEventListener('DOMContentLoaded', function() {
             dates: selectedOption.getAttribute('data-dates'),
             prices: selectedOption.getAttribute('data-prices')
         });
-        
+
         try {
             const dates = JSON.parse(selectedOption.getAttribute('data-dates') || '[]');
             const prices = JSON.parse(selectedOption.getAttribute('data-prices') || '[]');
-            
+
             console.log('Распарсенные данные:', {
                 dates,
                 prices
@@ -114,51 +124,51 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Обработчик отправки формы
-    bookingForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        const formData = new FormData(this);
-        const availablePlaces = parseInt(availablePlacesSpan.textContent);
-        const selectedPlaces = parseInt(peopleCountInput.value);
-
-        if (selectedPlaces > availablePlaces) {
-            errorMessage.textContent = `Доступно только ${availablePlaces} мест`;
-            errorMessage.style.display = 'block';
-            return;
-        }
-
-        if (!tourSelect.value || !dateSelect.value || !peopleCountInput.value) {
-            errorMessage.textContent = 'Пожалуйста, заполните все поля';
-            errorMessage.style.display = 'block';
-            return;
-        }
-
-        errorMessage.style.display = 'none';
-        
-        fetch(this.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                bookingModal.style.display = 'none';
-                bookingForm.reset();
-                alert('Бронирование успешно создано!');
-            } else {
-                errorMessage.textContent = data.message || 'Произошла ошибка при создании бронирования';
-                errorMessage.style.display = 'block';
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            errorMessage.textContent = 'Произошла ошибка при создании бронирования';
-            errorMessage.style.display = 'block';
-        });
-    });
+    // bookingForm.addEventListener('submit', function(event) {
+    //     event.preventDefault();
+    //
+    //     const formData = new FormData(this);
+    //     const availablePlaces = parseInt(availablePlacesSpan.textContent);
+    //     const selectedPlaces = parseInt(peopleCountInput.value);
+    //
+    //     if (selectedPlaces > availablePlaces) {
+    //         errorMessage.textContent = `Доступно только ${availablePlaces} мест`;
+    //         errorMessage.style.display = 'block';
+    //         return;
+    //     }
+    //
+    //     if (!tourSelect.value || !dateSelect.value || !peopleCountInput.value) {
+    //         errorMessage.textContent = 'Пожалуйста, заполните все поля';
+    //         errorMessage.style.display = 'block';
+    //         return;
+    //     }
+    //
+    //     errorMessage.style.display = 'none';
+    //
+    //     fetch(this.action, {
+    //         method: 'POST',
+    //         body: formData,
+    //         headers: {
+    //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+    //         }
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data.success) {
+    //             bookingModal.style.display = 'none';
+    //             bookingForm.reset();
+    //             alert('Бронирование успешно создано!');
+    //         } else {
+    //             errorMessage.textContent = data.message || 'Произошла ошибка при создании бронирования';
+    //             errorMessage.style.display = 'block';
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error('Ошибка:', error);
+    //         errorMessage.textContent = 'Произошла ошибка при создании бронирования';
+    //         errorMessage.style.display = 'block';
+    //     });
+    // });
 
     // Закрытие модального окна
     const closeModal = document.querySelector('#bookingModal .close-modal');
@@ -171,4 +181,4 @@ document.addEventListener('DOMContentLoaded', function() {
             bookingModal.style.display = 'none';
         }
     });
-}); 
+});

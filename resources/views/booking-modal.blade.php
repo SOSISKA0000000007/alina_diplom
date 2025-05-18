@@ -6,6 +6,8 @@
         <h2>Бронирование тура</h2>
         <form id="bookingForm" method="POST" action="{{ route('booking.store') }}">
             @csrf
+            <div id="messageContainer" class="message-container" style="display: none;"></div>
+
             <div class="form-group">
                 <label for="tour_id">Название тура</label>
                 <select id="tour_id" name="tour_id" required>
@@ -226,10 +228,22 @@
         }
 
         // Обработка отправки формы
+        // Обработка отправки формы с защитой от повторов
+        let isSubmitting = false;
+
         bookingForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
+            if (isSubmitting) return; // 🔒 Защита от повтора
+            isSubmitting = true;
+
             const formData = new FormData(bookingForm);
+            const submitButton = bookingForm.querySelector('button[type="submit"]');
+
+            // Блокируем кнопку
+            submitButton.disabled = true;
+            submitButton.textContent = 'Обработка...';
+
             fetch(bookingForm.action, {
                 method: 'POST',
                 body: formData,
@@ -241,8 +255,13 @@
             })
                 .then(response => response.json())
                 .then(data => {
+                    // Возвращаем кнопку и флаг
+                    isSubmitting = false;
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Забронировать';
+
                     if (data.success) {
-                        showMessage(data.message, 'success'); // Показываем сообщение об успехе
+                        showMessage(data.message, 'success');
                         bookingForm.reset();
                         availablePlacesSpan.textContent = '6';
                         pricePerPersonSpan.textContent = '0';
@@ -253,13 +272,17 @@
                         buttons[0].classList.add('active');
                         peopleCountInput.value = '1';
                     } else {
-                        showMessage(data.message, 'error'); // Показываем ошибку
+                        showMessage(data.message, 'error');
                     }
                 })
                 .catch(error => {
-                    console.error('Error submitting form:', error);
+                    isSubmitting = false;
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Забронировать';
+                    console.error('Ошибка бронирования:', error);
                     showMessage('Произошла ошибка при бронировании. Попробуйте снова.', 'error');
                 });
         });
+
     });
 </script>

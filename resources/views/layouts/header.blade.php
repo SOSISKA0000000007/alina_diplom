@@ -38,15 +38,16 @@
                 </button>
             </div>
         </div>
+    </div>
 </header>
 
 
-@include('auth.register-modal')
-@include('auth.login-modal')
-@include('booking-modal')
+{{--@include('auth.register-modal')--}}
+{{--@include('auth.login-modal')--}}
+{{--@include('booking-modal')--}}
 
-<script src="{{ asset('js/modal.js') }}"></script>
-<script src="{{ asset('js/admin.js') }}"></script>
-<script src="{{ asset('js/booking.js') }}"></script>
+{{--<script src="{{ asset('js/modal.js') }}"></script>--}}
+{{--<script src="{{ asset('js/admin.js') }}"></script>--}}
+{{--<script src="{{ asset('js/booking.js') }}"></script>--}}
 </body>
 </html>

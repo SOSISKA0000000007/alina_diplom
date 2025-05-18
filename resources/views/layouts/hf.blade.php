@@ -21,15 +21,15 @@
 
 @include('layouts.footer')
 
-@include('auth.register-modal')
-@include('auth.login-modal')
-@include('booking-modal')
+{{--@include('auth.register-modal')--}}
+{{--@include('auth.login-modal')--}}
+{{--@include('booking-modal')--}}
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('js/modal.js') }}"></script>
-<script src="{{ asset('js/admin.js') }}"></script>
-<script src="{{ asset('js/booking.js') }}"></script>
-@yield('scripts')
+{{--<script src="{{ asset('js/modal.js') }}"></script>--}}
+{{--<script src="{{ asset('js/admin.js') }}"></script>--}}
+{{--<script src="{{ asset('js/booking.js') }}"></script>--}}
+{{--@yield('scripts')--}}
 </body>
 </html>

@@ -17,8 +17,25 @@ class BookingController extends Controller
             'people_count' => 'required|integer|min:1|max:6',
         ]);
 
+        $userId = auth()->id();
+        $tourId = $request->tour_id;
+        $dateId = $request->date_id;
+
+        // Проверка на повторную бронь
+        $alreadyBooked = Booking::where('user_id', $userId)
+            ->where('tour_id', $tourId)
+            ->where('tour_date_id', $dateId)
+            ->exists();
+
+        if ($alreadyBooked) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Вы уже забронировали этот тур на выбранную дату.',
+            ], 409); // 409 Conflict
+        }
+
         // Проверяем доступное количество мест
-        $date = TourDate::findOrFail($request->date_id);
+        $date = TourDate::findOrFail($dateId);
         $totalBooked = Booking::where('tour_date_id', $date->id)->sum('people_count');
         $availablePlaces = 6 - $totalBooked;
 
@@ -30,19 +47,20 @@ class BookingController extends Controller
         }
 
         // Создаем бронирование
-        $booking = new Booking();
-        $booking->user_id = auth()->id();
-        $booking->tour_id = $request->tour_id;
-        $booking->tour_date_id = $request->date_id;
-        $booking->people_count = $request->people_count;
-        $booking->status = 'pending';
-        $booking->save();
+        Booking::create([
+            'user_id' => $userId,
+            'tour_id' => $tourId,
+            'tour_date_id' => $dateId,
+            'people_count' => $request->people_count,
+            'status' => 'pending',
+        ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Бронирование успешно создано'
         ]);
     }
+
 
     public function cancel(Booking $booking)
     {
