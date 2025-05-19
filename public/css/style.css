@@ -7,6 +7,9 @@
 * {
     margin: 0 auto;
 }
+main{
+    min-height: 100vh;
+}
 
 @font-face {
     font-family: com-l;
@@ -182,6 +185,7 @@
     font-family: rob-bold;
     font-size: 64px;
     color: white;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
 @media (max-width: 1600px) {

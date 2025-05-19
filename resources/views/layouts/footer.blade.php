@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="auth-check" content="{{ auth()->check() ? 'true' : 'false' }}">
-    <meta name="is-admin" content="{{ auth()->check() && auth()->user()->is_admin ? 'true' : 'false' }}">
+{{--<!DOCTYPE html>--}}
+{{--<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">--}}
+{{--<head>--}}
+{{--    <meta charset="utf-8">--}}
+{{--    <meta name="viewport" content="width=device-width, initial-scale=1">--}}
+{{--    <meta name="csrf-token" content="{{ csrf_token() }}">--}}
+{{--    <meta name="auth-check" content="{{ auth()->check() ? 'true' : 'false' }}">--}}
+{{--    <meta name="is-admin" content="{{ auth()->check() && auth()->user()->is_admin ? 'true' : 'false' }}">--}}
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+{{--    <title>{{ config('app.name', 'Laravel') }}</title>--}}
 
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <!-- Подключение Swiper.js CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-</head>
-<body>
+{{--    <link href="{{ asset('css/style.css') }}" rel="stylesheet">--}}
+{{--    <!-- Подключение Swiper.js CSS -->--}}
+{{--    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />--}}
+{{--</head>--}}
+{{--<body>--}}
 
 <footer class="headerr">
     <div class="container">
@@ -37,10 +37,11 @@
 
 @include('auth.register-modal')
 @include('auth.login-modal')
-@include('booking-modal')
+{{--@include('booking-modal')--}}
 
 <script src="{{ asset('js/modal.js') }}"></script>
 <script src="{{ asset('js/admin.js') }}"></script>
 <script src="{{ asset('js/booking.js') }}"></script>
+@yield('scripts')
 </body>
 </html>
