@@ -189,7 +189,7 @@
         .diving-slider {
             position: relative;
             width: 100%;
-            max-width: 800px; /* Adjust based on your design */
+            /*max-width: 800px; !* Adjust based on your design *!*/
             margin: 20px auto;
             overflow: hidden;
         }
@@ -201,7 +201,7 @@
 
         .diving-slider .swiper-slide {
             width: 50%; /* Each slide takes half the container width */
-            height: 300px; /* Fixed height for consistency */
+            height: 408px; /* Fixed height for consistency */
             overflow: hidden;
         }
 
