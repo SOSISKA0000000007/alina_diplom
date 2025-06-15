@@ -76,6 +76,11 @@
                         @enderror
                     </div>
 
+                    <div class="form-group total-cost" style="display: none;">
+                        <span class="total-cost-label">Итоговая стоимость:</span>
+                        <span id="total-cost">0 ₽</span>
+                    </div>
+
                     <div class="availability-message" style="display: none;"></div>
 
                     <button type="button" class="btn-clear" style="display: none;">Очистить выбор</button>
@@ -365,6 +370,25 @@
             color: var(--blue);
         }
 
+        .total-cost {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .total-cost-label {
+            font-size: 16px;
+            font-family: com-med;
+            color: rgba(54, 54, 54, 1);
+        }
+
+        #total-cost {
+            font-size: 16px;
+            font-family: com-bold;
+            color: var(--blue);
+        }
+
         .availability-message {
             margin-bottom: 15px;
         }
@@ -554,11 +578,42 @@
             const quantityAvailable = document.querySelector('.quantity-available');
             const galleryImages = document.querySelectorAll('.gallery-image');
             const mainImage = document.querySelector('.product-image img');
+            const totalCostElement = document.getElementById('total-cost');
+            const totalCostContainer = document.querySelector('.total-cost');
 
             let selectedSize = null;
             let maxQuantity = 0;
             let isAvailable = false;
             let isChecking = false;
+            const pricePerDay = {{ $product->price }};
+
+            function calculateTotalCost() {
+                if (!startDateInput.value || !endDateInput.value || !quantityInput.value) {
+                    totalCostContainer.style.display = 'none';
+                    return;
+                }
+
+                const startDate = new Date(startDateInput.value);
+                const endDate = new Date(endDateInput.value);
+                const quantity = parseInt(quantityInput.value);
+
+                if (isNaN(quantity) || quantity < 1 || startDate > endDate) {
+                    totalCostContainer.style.display = 'none';
+                    return;
+                }
+
+                const timeDiff = endDate - startDate;
+                const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1; // Include both start and end dates
+                const totalCost = days * pricePerDay * quantity;
+
+                totalCostElement.textContent = `${totalCost.toLocaleString('ru-RU')} ₽`;
+                totalCostContainer.style.display = 'flex';
+                console.log('Total cost calculated:', {
+                    days: days,
+                    quantity: quantity,
+                    totalCost: totalCost
+                });
+            }
 
             function debounce(func, wait) {
                 let timeout;
@@ -659,6 +714,7 @@
                             }
                         }
                         updateQuantityButtons();
+                        calculateTotalCost();
                         console.log('Button state:', { disabled: submitBtn.disabled, isAvailable, response: data });
                     })
                     .catch(error => {
@@ -744,13 +800,17 @@
                 if (sizeInput.value) {
                     debouncedCheckAvailability();
                 }
+                calculateTotalCost();
             });
 
             endDateInput.addEventListener('change', function() {
                 if (sizeInput.value) {
                     debouncedCheckAvailability();
                 }
+                calculateTotalCost();
             });
+
+            quantityInput.addEventListener('change', calculateTotalCost);
 
             clearBtn.addEventListener('click', function() {
                 sizeButtons.forEach(btn => btn.classList.remove('selected'));
@@ -759,6 +819,7 @@
                 quantitySelector.style.display = 'flex';
                 dateButton.style.display = 'flex';
                 dateSelectors.forEach(selector => selector.style.display = 'none');
+                totalCostContainer.style.display = 'none';
                 availabilityMessage.style.display = 'none';
                 submitBtn.disabled = true;
                 isAvailable = false;

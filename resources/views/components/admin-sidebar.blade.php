@@ -18,6 +18,9 @@
         <a href="{{ route('admin.rental-products.index') }}" class="profile-nav-link  {{ request()->routeIs('admin.rental-products.index') ? 'active' : '' }}">
             Редактировать товар
         </a>
+        <a href="{{ route('admin.users.index') }}" class="profile-nav-link  {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
+            Пользователи
+        </a>
     </nav>
 </div>
 

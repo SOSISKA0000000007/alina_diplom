@@ -189,7 +189,7 @@
         .diving-slider {
             position: relative;
             width: 100%;
-            /*max-width: 800px; !* Adjust based on your design *!*/
+            /*cd  !* Adjust based on your design *!*/
             margin: 20px auto;
             overflow: hidden;
         }

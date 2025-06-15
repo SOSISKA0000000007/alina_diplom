@@ -31,4 +31,9 @@ class Booking extends Model
     {
         return $this->belongsTo(TourDate::class);
     }
+
+    public function tourReview()
+    {
+        return $this->hasOne(TourReview::class);
+    }
 }
