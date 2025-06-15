@@ -47,7 +47,7 @@
 
 {{--    @include('auth.register-modal')--}}
 {{--    @include('auth.login-modal')--}}
-{{--    @include('booking-modal')--}}
+    @include('booking-modal')
 
 {{--    <script src="{{ asset('js/modal.js') }}"></script>--}}
 {{--    <script src="{{ asset('js/admin.js') }}"></script>--}}

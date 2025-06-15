@@ -13,10 +13,10 @@ class TourDateController extends Controller
     {
         $date = TourDate::findOrFail($dateId);
         $totalBooked = Booking::where('tour_date_id', $date->id)->sum('people_count');
-        $availablePlaces = 6 - $totalBooked;
+        $availablePlaces = max(0, 6 - $totalBooked);
 
         return response()->json([
             'available_places' => $availablePlaces
         ]);
     }
-} 
+}
