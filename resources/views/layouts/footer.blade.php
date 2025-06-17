@@ -29,7 +29,7 @@
                 <a href="/"><img src="{{ asset('images/logo.svg') }}" alt="Логотип"></a>
             </div>
             <div class="nav-buttons">
-                <p class="nav-copyright">©бебебебебебббебббебебеб</p>
+                <p class="nav-copyright">©Погружение</p>
             </div>
         </div>
     </div>

@@ -7,7 +7,6 @@
         <form id="bookingForm" method="POST" action="{{ route('booking.store') }}">
             @csrf
             <div id="messageContainer" class="message-container" style="display: none;"></div>
-
             <div class="form-group">
                 <label for="tour_id">Название тура</label>
                 <select id="tour_id" name="tour_id" required>

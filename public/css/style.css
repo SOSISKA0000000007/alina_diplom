@@ -73,6 +73,7 @@ main{
 .header {
     background-image: url(../images/background_header.png);
     background-size: cover;
+    background-position-x: center;
     background-repeat: no-repeat;
     height: 100vh;
 }
@@ -162,6 +163,12 @@ main{
     .nav-button {
         font-size: 12px;
     }
+    .nav-button{
+        margin-top: 30px;
+        background-color: rgba(0, 0, 0, 0);
+        color: white;
+        border: 2px solid white;
+    }
 }
 
 .nav-link:hover {
@@ -212,6 +219,15 @@ main{
     }
     .title h1 {
         font-size: 56px;
+    }
+}
+
+@media (max-width: 481px) {
+    .title h3 {
+        font-size: 24px;
+    }
+    .title h1 {
+        font-size: 48px;
     }
 }
 
@@ -1647,4 +1663,57 @@ main{
 .admin-form-delite{
     display: flex;
     gap: 10px;
+}
+.contact-form {
+    display: flex;
+    padding: 0;
+    background: var(--blue);
+    margin-bottom: 50px;
+}
+.contact-form img{
+    margin: 0;
+}
+.contact-form h2 {
+    font-size: 32px;
+    font-family: com-med;
+    color: white;
+    max-width: 500px;
+    text-align: center;
+}
+.needs-validation{
+    display: flex;
+    flex-direction: column;
+    gap: 65px;
+}
+.email-form-input{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 10px;
+    margin: 0;
+}
+.email-form-input label{
+    color: white;
+    font-family: com-l;
+    font-size: 20px;
+}
+.email-form-input input{
+    background-color: white;
+    height: 40px;
+    border-radius: 0;
+    border: 0;
+    font-family: com-l;
+    font-size: 20px;
+    color: var(--black);
+}
+.email-form-input label,
+.email-form-input input {
+    margin: 0;
+}
+.contact-form .btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(207, 207, 207, 1);
+    color: var(--blue);
+    border-radius: 0;
 }

@@ -174,7 +174,7 @@
             <h1>ОТЗЫВЫ О ТУРАХ</h1>
             <div class="reviews-controls">
                 @auth
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">Оставить отзыв</button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#review-modal">Оставить отзыв</button>
                 @else
                     <a href="{{ route('login') }}" class="btn btn-primary">Войдите, чтобы оставить отзыв</a>
                 @endauth
@@ -184,36 +184,46 @@
     </section>
 
     <!-- Модальное окно для отзыва -->
-    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="review-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reviewModalLabel">Оставить отзыв</h5>
+                    <h5 class="modal-title" id="review-modal-label">Оставить отзыв</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="reviewForm">
+                    <form id="review-form">
                         @csrf
                         <div class="mb-3">
-                            <label for="tour_id" class="form-label">Выберите тур</label>
-                            <select name="tour_id" id="tour_id" class="form-select" required>
+                            <label for="review-tour-id" class="form-label">Выберите тур</label>
+                            <select name="tour_id" id="review-tour-id" class="form-select" required>
                                 <option value="">Выберите тур</option>
                                 @auth
-                                    @foreach(auth()->user()->bookings()->where('status', 'confirmed')->with('tour')->get() as $booking)
-                                        @if($booking->tourDate->end_date < now())
+                                    @php
+                                        $bookings = auth()->user()->bookings()->where('status', 'confirmed')->with(['tour', 'tourDate'])->get();
+                                        $hasBookings = false;
+                                    @endphp
+                                    @foreach($bookings as $booking)
+                                        @if($booking->tour && $booking->tourDate && $booking->tourDate->end_date < now())
+                                            @php $hasBookings = true; @endphp
                                             <option value="{{ $booking->tour->id }}" data-booking-id="{{ $booking->id }}">{{ $booking->tour->title }}</option>
                                         @endif
                                     @endforeach
+                                    @if(!$hasBookings)
+                                        <option value="" disabled>Нет доступных туров для отзыва</option>
+                                    @endif
+                                @else
+                                    <option value="" disabled>Войдите, чтобы оставить отзыв</option>
                                 @endauth
                             </select>
-                            <div id="tour-error" class="text-danger" style="display: none;"></div>
+                            <div id="review-tour-error" class="text-danger" style="display: none;"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="comment" class="form-label">Ваш отзыв</label>
-                            <textarea name="comment" id="comment" class="form-control" rows="5" required maxlength="1000"></textarea>
-                            <div id="comment-error" class="text-danger" style="display: none;"></div>
+                            <label for="review-comment" class="form-label">Ваш отзыв</label>
+                            <textarea name="comment" id="review-comment" class="form-control" rows="5" required maxlength="1000"></textarea>
+                            <div id="review-comment-error" class="text-danger" style="display: none;"></div>
                         </div>
-                        <input type="hidden" name="booking_id" id="booking_id">
+                        <input type="hidden" name="booking_id" id="review-booking-id">
                         <button type="submit" class="btn btn-primary">Отправить</button>
                     </form>
                 </div>
@@ -223,27 +233,25 @@
 
     <div class="container">
         <section class="contact-form">
-            <h2>Свяжитесь с нами</h2>
+            <img src="{{ asset('images/form-email.png') }}" alt="Логотип">
             <form id="contactForm" class="needs-validation" novalidate>
+                <h2>Остались вопросы, заполните форму и мы свяжемся с вами?</h2>
                 @csrf
-                <div class="mb-3">
+                <div class="email-form-input">
                     <label for="name" class="form-label">Имя</label>
                     <input type="text" class="form-control" id="name" name="name" required minlength="2" maxlength="50">
-                    <div class="invalid-feedback">Введите имя (от 2 до 50 символов).</div>
                 </div>
-                <div class="mb-3">
+                <div class="email-form-input">
                     <label for="phone" class="form-label">Телефон</label>
                     <input type="tel" class="form-control" id="phone" name="phone" required pattern="\+?[0-9\s\-\(\)]{10,15}">
-                    <div class="invalid-feedback">Введите корректный номер телефона.</div>
                 </div>
-                <div class="mb-3">
+                <div class="email-form-input">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" name="email" required>
-                    <div class="invalid-feedback">Введите корректный email.</div>
                 </div>
                 <button type="submit" class="btn btn-primary">Отправить</button>
-                <div id="contact-success" class="text-success mt-3" style="display: none;">Сообщение успешно отправлено!</div>
-                <div id="contact-error" class="text-danger mt-3" style="display: none;"></div>
+                <div id="contact-success" class="text-success" style="display: none;">Сообщение успешно отправлено!</div>
+                <div id="contact-error" class="text-danger" style="display: none;"></div>
             </form>
         </section>
     </div>
@@ -341,130 +349,177 @@
                 });
         }
 
-        // Обработка отправки отзыва
-        document.getElementById('reviewForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const form = this;
-            const tourId = document.getElementById('tour_id').value;
-            const bookingId = document.getElementById('tour_id').selectedOptions[0].dataset.bookingId;
-            const comment = document.getElementById('comment').value;
-            const token = document.querySelector('input[name="_token"]').value;
+        // Обработка отправки отзыва и управление формой
+        document.addEventListener('DOMContentLoaded', function () {
+            const reviewForm = document.getElementById('review-form');
+            const tourSelect = document.getElementById('review-tour-id');
+            const submitButton = reviewForm?.querySelector('button[type="submit"]');
 
-            document.getElementById('tour-error').style.display = 'none';
-            document.getElementById('comment-error').style.display = 'none';
-
-            fetch(`/tours/${tourId}/reviews`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': token
-                },
-                body: JSON.stringify({
-                    tour_id: tourId,
-                    booking_id: bookingId,
-                    comment: comment
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        document.getElementById('reviewForm').reset();
-                        document.getElementById('reviewModal').querySelector('.btn-close').click();
-                        fetchReviews();
-                    } else {
-                        if (data.error.includes('не можете оставить отзыв')) {
-                            document.getElementById('tour-error').innerText = data.error;
-                            document.getElementById('tour-error').style.display = 'block';
-                        } else if (data.error.includes('уже оставили отзыв')) {
-                            document.getElementById('comment-error').innerText = data.error;
-                            document.getElementById('comment-error').style.display = 'block';
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error('Error submitting review:', error);
-                    document.getElementById('comment-error').innerText = 'Ошибка при отправке отзыва';
-                    document.getElementById('comment-error').style.display = 'block';
+            if (!reviewForm || !tourSelect || !submitButton) {
+                console.error('Review form elements not found:', {
+                    reviewForm: !!reviewForm,
+                    tourSelect: !!tourSelect,
+                    submitButton: !!submitButton
                 });
-        });
-
-        // Установка booking_id при выборе тура
-        document.getElementById('tour_id').addEventListener('change', function () {
-            document.getElementById('booking_id').value = this.selectedOptions[0].dataset.bookingId || '';
-        });
-
-        // Обработка отправки контактной формы
-        document.getElementById('contactForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const form = this;
-            if (!form.checkValidity()) {
-                form.classList.add('was-validated');
                 return;
             }
 
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
-            const token = document.querySelector('input[name="_token"]').value;
+            // Логируем доступные опции в <select>
+            console.log('Available options in review-tour-id:', Array.from(tourSelect.options).map(opt => ({
+                value: opt.value,
+                text: opt.text,
+                bookingId: opt.dataset.bookingId
+            })));
 
-            document.getElementById('contact-success').style.display = 'none';
-            document.getElementById('contact-error').style.display = 'none';
+            // Отключаем кнопку, если тур не выбран
+            submitButton.disabled = !tourSelect.value;
 
-            fetch('/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': token
-                },
-                body: JSON.stringify({ name, phone, email })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        form.reset();
-                        form.classList.remove('was-validated');
-                        document.getElementById('contact-success').style.display = 'block';
-                    } else {
-                        document.getElementById('contact-error').innerText = data.error || 'Ошибка при отправке сообщения';
-                        document.getElementById('contact-error').style.display = 'block';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error submitting contact form:', error);
-                    document.getElementById('contact-error').innerText = 'Ошибка при отправке сообщения';
-                    document.getElementById('contact-error').style.display = 'block';
+            // Обновляем booking_id и состояние кнопки при изменении <select>
+            tourSelect.addEventListener('change', function () {
+                const selectedOption = this.selectedOptions[0];
+                const bookingId = selectedOption?.dataset.bookingId || '';
+                document.getElementById('review-booking-id').value = bookingId;
+                submitButton.disabled = !this.value;
+                console.log('Selected option:', {
+                    value: this.value,
+                    bookingId,
+                    text: selectedOption?.text
                 });
+            });
+
+            // Обработка отправки формы
+            reviewForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                console.log('Form submit triggered');
+
+                const tourId = tourSelect.value;
+                const selectedOption = tourSelect.selectedOptions[0];
+                const bookingId = selectedOption?.dataset.bookingId;
+                const comment = document.getElementById('review-comment').value;
+                const token = document.querySelector('input[name="_token"]')?.value;
+
+                console.log('Submitting review:', { tourId, bookingId, comment, token });
+
+                const tourError = document.getElementById('review-tour-error');
+                const commentError = document.getElementById('review-comment-error');
+                tourError.style.display = 'none';
+                commentError.style.display = 'none';
+
+                if (!tourId) {
+                    tourError.innerText = 'Пожалуйста, выберите тур';
+                    tourError.style.display = 'block';
+                    return;
+                }
+                if (!bookingId) {
+                    tourError.innerText = 'Ошибка: бронирование не найдено';
+                    tourError.style.display = 'block';
+                    return;
+                }
+                if (!comment.trim()) {
+                    commentError.innerText = 'Пожалуйста, напишите отзыв';
+                    commentError.style.display = 'block';
+                    return;
+                }
+                if (!token) {
+                    commentError.innerText = 'Ошибка: CSRF-токен отсутствует';
+                    commentError.style.display = 'block';
+                    return;
+                }
+
+                fetch(`/tours/${tourId}/reviews`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': token
+                    },
+                    body: JSON.stringify({
+                        tour_id: tourId,
+                        booking_id: bookingId,
+                        comment: comment
+                    })
+                })
+                    .then(response => {
+                        console.log('Fetch response:', response.status, response.statusText);
+                        if (!response.ok) {
+                            return response.json().then(err => {
+                                throw new Error(err.error || `HTTP error! Status: ${response.status}`);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Fetch data:', data);
+                        if (data.success) {
+                            alert(data.message);
+                            reviewForm.reset();
+                            submitButton.disabled = true;
+                            document.getElementById('review-modal').querySelector('.btn-close').click();
+                            fetchReviews();
+                        } else {
+                            commentError.innerText = data.error || 'Неизвестная ошибка';
+                            commentError.style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                        commentError.innerText = `Ошибка при отправке отзыва: ${error.message}`;
+                        commentError.style.display = 'block';
+                    });
+            });
+        });
+
+        // Обработка отправки контактной формы
+        document.addEventListener('DOMContentLoaded', function () {
+            const contactForm = document.getElementById('contactForm');
+            if (!contactForm) {
+                console.error('Contact form not found');
+                return;
+            }
+
+            contactForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (!this.checkValidity()) {
+                    this.classList.add('was-validated');
+                    return;
+                }
+
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+                const email = document.getElementById('email').value;
+                const token = document.querySelector('input[name="_token"]')?.value;
+
+                document.getElementById('contact-success').style.display = 'none';
+                document.getElementById('contact-error').style.display = 'none';
+
+                fetch('/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': token
+                    },
+                    body: JSON.stringify({ name, phone, email })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            contactForm.reset();
+                            contactForm.classList.remove('was-validated');
+                            document.getElementById('contact-success').style.display = 'block';
+                        } else {
+                            document.getElementById('contact-error').innerText = data.error || 'Ошибка при отправке сообщения';
+                            document.getElementById('contact-error').style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error submitting contact form:', error);
+                        document.getElementById('contact-error').innerText = 'Ошибка при отправке сообщения';
+                        document.getElementById('contact-error').style.display = 'block';
+                    });
+            });
         });
     </script>
-
-    <style>
-        .contact-form {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background: #fff;
-        }
-        .contact-form h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .contact-form .form-control {
-            border-radius: 4px;
-        }
-        .contact-form .btn-primary {
-            width: 100%;
-            padding: 10px;
-            border-radius: 4px;
-        }
-        .contact-form .invalid-feedback {
-            font-size: 0.875em;
-        }
-    </style>
 @endsection
