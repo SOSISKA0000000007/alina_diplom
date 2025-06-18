@@ -51,9 +51,9 @@
                                     <td>{{ $user->phone ?? 'Не указан' }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $booking->tour->title ?? 'Тур не найден' }}</td>
-                                    <td>{{ $booking->tourDate ? \Carbon\Carbon::parse($booking->tourDate->start_date)->translatedFormat('d F Y') : 'Не указана' }}</td>
-                                    <td>{{ $booking->tourDate ? \Carbon\Carbon::parse($booking->tourDate->end_date)->translatedFormat('d F Y') : 'Не указана' }}</td>
-                                    <td>{{ $booking->number_of_people ?? 'Не указано' }}</td>
+                                    <td>{{ $booking->tourDate ? \Carbon\Carbon::parse($booking->tourDate->start_date)->translatedFormat('d.m.y') : 'Не указана' }}</td>
+                                    <td>{{ $booking->tourDate ? \Carbon\Carbon::parse($booking->tourDate->end_date)->translatedFormat('d.m.y') : 'Не указана' }}</td>
+                                    <td>{{ $booking->people_count ?? 'Не указано' }}</td>
                                     <td>{{ number_format($booking->total_price, 0, ',', ' ') }} ₽</td>
                                     <td>
                                         @if($booking->status === 'pending')

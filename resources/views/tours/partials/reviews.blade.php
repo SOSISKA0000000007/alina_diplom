@@ -4,10 +4,14 @@
             @foreach($reviews as $review)
                 <div class="swiper-slide">
                     <div class="review-card">
-                        <h5>{{ $review->user->name }}</h5>
-                        <h6>{{ $review->tour->title }}</h6>
-                        <p>{{ \Illuminate\Support\Str::limit($review->comment, 200) }}</p>
-                        <small>{{ \Carbon\Carbon::parse($review->created_at)->translatedFormat('d F Y') }}</small>
+                        <div class="review-card-header">
+                            <h5>{{ $review->user->name }}</h5>
+                            <div class="review-card-meta">
+                                <p>{{ $review->tour->title }}</p>
+                                <p>{{ \Carbon\Carbon::parse($review->created_at)->format('d.m.Y') }}</p>
+                            </div>
+                        </div>
+                        <p class="review-comment">{{ \Illuminate\Support\Str::limit($review->comment, 200) }}</p>
                     </div>
                 </div>
             @endforeach
@@ -24,30 +28,50 @@
 <style>
     .review-card {
         border: 1px solid #ddd;
-        padding: 15px;
+        padding: 20px;
         margin: 10px;
         border-radius: 5px;
         background: #fff;
+        width: 90%; /* Wider card */
+        max-width: 600px;
         height: calc(100% - 20px);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        box-sizing: border-box;
+        gap: 20px;
     }
-    .review-card h5 {
-        margin: 0 0 5px;
-        font-size: 1.2em;
+    .review-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
     }
-    .review-card h6 {
-        margin: 0 0 10px;
-        font-size: 1em;
-        color: #555;
+    .review-card-header h5 {
+        font-family: com-bold;
+        color: var(--blue);
+        margin: 0;
+        font-size: 24px;
+        flex: 1; /* Take available space on the left */
     }
-    .review-card p {
-        margin: 0 0 10px;
+    .review-card-meta {
+        display: flex;
+        gap: 10px;
+        justify-content: end;
+    }
+    .review-card-meta p {
+        font-family: com-reg;
+        font-size: 16px;
+        margin: 0;
+        color: var(--blue);
+    }
+    .review-comment {
+        font-family: com-reg;
+        font-size: 16px;
+        color: var(--blue);
+        margin: 0;
         flex-grow: 1;
-    }
-    .review-card small {
-        color: #666;
+        width: 100%; /* Full width for comment */
     }
     .reviews-controls {
         display: flex;

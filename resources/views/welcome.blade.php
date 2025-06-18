@@ -172,6 +172,7 @@
     <section class="container">
         <div class="tour-reviews">
             <h1>ОТЗЫВЫ О ТУРАХ</h1>
+            <div id="reviews-container"></div>
             <div class="reviews-controls">
                 @auth
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#review-modal">Оставить отзыв</button>
@@ -179,7 +180,7 @@
                     <a href="{{ route('login') }}" class="btn btn-primary">Войдите, чтобы оставить отзыв</a>
                 @endauth
             </div>
-            <div id="reviews-container"></div>
+
         </div>
     </section>
 
@@ -188,13 +189,13 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="review-modal-label">Оставить отзыв</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h2 class="modal-title" id="review-modal-label">Оставить отзыв</h2>
+                    <button type="button" class="close-modal" data-bs-dismiss="modal" aria-label="Close" style="background: none; border: none">×</button>
                 </div>
                 <div class="modal-body">
                     <form id="review-form">
                         @csrf
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="review-tour-id" class="form-label">Выберите тур</label>
                             <select name="tour_id" id="review-tour-id" class="form-select" required>
                                 <option value="">Выберите тур</option>
@@ -218,9 +219,9 @@
                             </select>
                             <div id="review-tour-error" class="text-danger" style="display: none;"></div>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="review-comment" class="form-label">Ваш отзыв</label>
-                            <textarea name="comment" id="review-comment" class="form-control" rows="5" required maxlength="1000"></textarea>
+                            <textarea name="comment" id="review-comment" class="form-control" rows="5" required maxlength="1000" style="width: 99%"></textarea>
                             <div id="review-comment-error" class="text-danger" style="display: none;"></div>
                         </div>
                         <input type="hidden" name="booking_id" id="review-booking-id">
@@ -334,10 +335,6 @@
                                 768: {
                                     slidesPerView: 2,
                                     spaceBetween: 15,
-                                },
-                                992: {
-                                    slidesPerView: 3,
-                                    spaceBetween: 20,
                                 },
                             },
                         });

@@ -14,6 +14,7 @@ class Booking extends Model
         'tour_id',
         'tour_date_id',
         'people_count',
+        'total_price',
         'status'
     ];
 

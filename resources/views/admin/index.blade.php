@@ -10,6 +10,11 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             <div class="bookings-wrapper">
                 <h2>Управление турами</h2>
@@ -47,19 +52,23 @@
                                                 <div class="price-item">
                                                     <span>Обычная: {{ number_format($price->regular_price, 0, ',', ' ') }} ₽</span>
                                                     <span>Со скидкой: {{ number_format($price->sale_price, 0, ',', ' ') }} ₽</span>
+                                                    <form action="{{ route('admin.tours.prices.destroy', ['tour' => $tour->id, 'price' => $price->id]) }}" method="POST" class="delete-form">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">×</button>
+                                                    </form>
                                                 </div>
-                                                    <button class="btn btn-primary edit-price" data-tour-id="{{ $tour->id }}" data-price-id="{{ $price->id }}">Редактировать</button>
-
+                                                <button class="btn btn-primary edit-price"
+                                                        data-tour-id="{{ $tour->id }}"
+                                                        data-price-id="{{ $price->id }}"
+                                                        data-regular-price="{{ $price->regular_price }}"
+                                                        data-sale-price="{{ $price->sale_price }}">Редактировать</button>
                                             @endforeach
                                         @else
                                             <button class="btn btn-primary edit-price" data-tour-id="{{ $tour->id }}">Добавить цены</button>
                                         @endif
                                     </div>
                                 </td>
-{{--                                <td>--}}
-{{--                                    <span class="label">Действия</span><br><br>--}}
-{{--                                    <button class="btn btn-primary edit-tour" data-tour-id="{{ $tour->id }}">Редактировать</button>--}}
-{{--                                </td>--}}
                             </tr>
                         @empty
                             <tr>
@@ -103,7 +112,7 @@
             <h2>Редактировать цены тура</h2>
             <form id="editPriceForm" method="POST" class="admin-form">
                 @csrf
-                @method('PUT')
+                <input type="hidden" name="_method" id="form_method" value="PUT">
                 <input type="hidden" name="tour_id" id="price_tour_id">
                 <input type="hidden" name="price_id" id="price_id">
                 <div class="admin-form-container">
@@ -127,7 +136,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const addDateButtons = document.querySelectorAll('.add-date');
             const editPriceButtons = document.querySelectorAll('.edit-price');
-            const editTourButtons = document.querySelectorAll('.edit-tour');
             const addDateModal = document.getElementById('addDateModal');
             const editPriceModal = document.getElementById('editPriceModal');
             const closeModalButtons = document.querySelectorAll('.close-modal');
@@ -139,7 +147,7 @@
                 button.addEventListener('click', function() {
                     const tourId = this.getAttribute('data-tour-id');
                     document.getElementById('tour_id').value = tourId;
-                    addDateForm.action = `{{ url('admin/tours') }}/${tourId}/dates`;
+                    addDateForm.action = `{{ route('admin.tours.dates.store', ['tour' => ':tour']) }}`.replace(':tour', tourId);
                     addDateModal.style.display = 'block';
                 });
             });
@@ -149,19 +157,63 @@
                 button.addEventListener('click', function() {
                     const tourId = this.getAttribute('data-tour-id');
                     const priceId = this.getAttribute('data-price-id') || '';
+                    const regularPrice = this.getAttribute('data-regular-price') || '';
+                    const salePrice = this.getAttribute('data-sale-price') || '';
+
                     document.getElementById('price_tour_id').value = tourId;
                     document.getElementById('price_id').value = priceId;
-                    editPriceForm.action = priceId ? `{{ url('admin/tours') }}/${tourId}/prices/${priceId}` : `{{ url('admin/tours') }}/${tourId}/prices`;
+                    document.getElementById('regular_price').value = regularPrice;
+                    document.getElementById('sale_price').value = salePrice;
+
+                    const formMethod = document.getElementById('form_method');
+                    if (priceId) {
+                        editPriceForm.action = `{{ route('admin.tours.prices.update', ['tour' => ':tour', 'price' => ':price']) }}`
+                            .replace(':tour', tourId).replace(':price', priceId);
+                        formMethod.value = 'PUT';
+                    } else {
+                        editPriceForm.action = `{{ route('admin.tours.prices.store', ['tour' => ':tour']) }}`.replace(':tour', tourId);
+                        formMethod.value = 'POST';
+                    }
+                    console.log('Form action set to:', editPriceForm.action, 'Method:', formMethod.value);
                     editPriceModal.style.display = 'block';
                 });
             });
 
-            // Open Edit Tour (assuming redirect or modal, redirect for simplicity)
-            editTourButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const tourId = this.getAttribute('data-tour-id');
-                    window.location.href = `{{ url('admin/tours') }}/${tourId}/edit`;
-                });
+            // Handle Edit Price Form Submission
+            editPriceForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const method = document.getElementById('form_method').value;
+
+                console.log('Sending request to:', this.action, 'Method:', method);
+
+                fetch(this.action, {
+                    method: method === 'PUT' ? 'POST' : method, // Laravel обрабатывает PUT через _method
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        console.log('Response status:', response.status);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message);
+                            window.location.reload();
+                        } else {
+                            alert('Ошибка: ' + (data.message || 'Не удалось сохранить изменения'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Произошла ошибка при сохранении: ' + error.message);
+                    });
             });
 
             // Close Modals
