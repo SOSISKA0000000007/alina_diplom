@@ -7,7 +7,8 @@
 * {
     margin: 0 auto;
 }
-main{
+
+main {
     min-height: 100vh;
 }
 
@@ -163,7 +164,7 @@ main{
     .nav-button {
         font-size: 12px;
     }
-    .nav-button{
+    .nav-button {
         margin-top: 30px;
         background-color: rgba(0, 0, 0, 0);
         color: white;
@@ -337,8 +338,9 @@ main{
     width: 100%;
     gap: 20px;
 }
+
 @media (max-width: 600px) {
-    .tours-row{
+    .tours-row {
         flex-wrap: wrap;
         width: 80%;
     }
@@ -593,6 +595,7 @@ main{
     color: var(--white);
     text-align: center;
 }
+
 @media (max-width: 1600px) {
     .plusses {
         margin-top: 60px;
@@ -641,14 +644,13 @@ main{
 }
 
 @media (max-width: 600px) {
-
     .plusses-contain {
         display: none;
     }
-    .plusses-ul{
+    .plusses-ul {
         display: flex !important;
     }
-    .plusses-ul ul{
+    .plusses-ul ul {
         color: white;
         font-size: 16px;
         font-family: com-l;
@@ -657,7 +659,7 @@ main{
         gap: 20px;
         margin-bottom: 30px;
     }
-    .plusses-ul ul li{
+    .plusses-ul ul li {
         margin: 0;
     }
 }
@@ -693,11 +695,10 @@ main{
     opacity: 0;
     display: flex;
     flex-direction: column;
-    justify-content: end;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     color: white;
-    padding: 0 37px;
-    margin-bottom: 30px;
+    padding: 20px;
     text-align: center;
     transition: opacity 0.3s ease;
 }
@@ -707,13 +708,14 @@ main{
 }
 
 .instructor-overlay h3 {
-    font: 14px com-med;
-    margin-bottom: 10px;
-    margin: 0;
+    font-family: com-med;
+    font-size: 14px;
+    margin: 0 0 10px 0;
 }
 
 .instructor-overlay p {
-    font: 14px com-reg;
+    font-family: com-reg;
+    font-size: 14px;
     margin: 5px 0;
 }
 
@@ -759,7 +761,7 @@ main{
         justify-content: center;
         align-items: center;
         color: white;
-        padding: 20px 0;
+        padding: 20px;
         text-align: center;
         transition: opacity 0.3s ease;
     }
@@ -767,12 +769,14 @@ main{
         opacity: 1;
     }
     .instructor-overlay h3 {
-        font: 12px com-med;
-        margin-bottom: 10px;
+        font-family: com-med;
+        font-size: 12px;
+        margin: 0 0 8px 0;
     }
     .instructor-overlay p {
-        font: 12px com-reg;
-        margin: 5px 0;
+        font-family: com-reg;
+        font-size: 12px;
+        margin: 4px 0;
     }
     .swiper {
         width: 100%;
@@ -789,10 +793,10 @@ main{
         font-size: 42px;
     }
     .instructor-overlay h3 {
-        font: 10px com-med;
+        font-size: 10px;
     }
     .instructor-overlay p {
-        font: 10px com-reg;
+        font-size: 10px;
     }
 }
 
@@ -801,10 +805,10 @@ main{
         font-size: 40px;
     }
     .instructor-overlay h3 {
-        font: 8px com-med;
+        font-size: 8px;
     }
     .instructor-overlay p {
-        font: 8px com-reg;
+        font-size: 8px;
     }
 }
 
@@ -943,7 +947,6 @@ main{
     cursor: pointer;
     font-size: 14px;
 }
-
 
 .btn-primary:hover {
     background-color: var(--blue);
@@ -1621,31 +1624,33 @@ main{
     text-decoration: line-through;
 }
 
-.admin-form{
+.admin-form {
     margin: 0;
     display: flex;
     flex-direction: column;
     gap: 15px;
     margin-top: 50px;
 }
+
 .admin-layout {
     display: flex;
     gap: 50px;
     min-height: 100vh;
 }
 
-.admin-form-container{
+.admin-form-container {
     width: 100%;
     display: grid;
     grid-template-columns: 150px 1fr;
     gap: 10px;
 }
 
-.admin-label{
+.admin-label {
     font: 20px com-reg;
     margin: 0;
 }
-.admin-input{
+
+.admin-input {
     border: 1px solid rgba(207, 207, 207, 1);
     border-radius: 4px;
     padding: 8px 0px;
@@ -1653,24 +1658,28 @@ main{
     width: 100%;
     font: 20px com-reg;
 }
-.admin-size{
+
+.admin-size {
     display: flex;
     gap: 10px;
     margin: 0;
 }
-#sizes-container{
+
+#sizes-container {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
-.admin-select{
+
+.admin-select {
     border: 1px solid rgba(207, 207, 207, 1);
     border-radius: 4px;
     padding: 8px 0px;
     margin: 0;
     font: 20px com-reg;
 }
-.admin-form-button{
+
+.admin-form-button {
     background: var(--blue);
     color: white;
     font: 20px com-reg;
@@ -1679,12 +1688,14 @@ main{
     padding: 10px;
     text-decoration: none;
 }
-.admin-input-photo{
+
+.admin-input-photo {
     margin: 0;
     width: 100%;
     font: 20px com-reg;
 }
-.admin-form-button-create{
+
+.admin-form-button-create {
     background: var(--blue);
     color: white;
     font: 20px com-reg;
@@ -1693,28 +1704,35 @@ main{
     padding: 10px;
     width: 100%;
 }
-.admin-button-container{
+
+.admin-button-container {
     margin: 0;
 }
-.d-inline{
+
+.d-inline {
     margin: 5px 0;
 }
-.bookings-wrapper{
+
+.bookings-wrapper {
     margin: 0;
 }
-.admin-form-delite{
+
+.admin-form-delite {
     display: flex;
     gap: 10px;
 }
+
 .contact-form {
     display: flex;
     padding: 0;
     background: var(--blue);
     margin-bottom: 50px;
 }
-.contact-form img{
+
+.contact-form img {
     margin: 0;
 }
+
 .contact-form h2 {
     font-size: 32px;
     font-family: com-med;
@@ -1722,6 +1740,7 @@ main{
     max-width: 500px;
     text-align: center;
 }
+
 @media (max-width: 600px) {
     .contact-form img {
         display: none;
@@ -1731,28 +1750,32 @@ main{
         font-family: com-med;
         margin-top: 30px;
     }
-    .needs-validation{
+    .needs-validation {
         gap: 30px;
     }
 }
-.needs-validation{
+
+.needs-validation {
     display: flex;
     flex-direction: column;
     gap: 65px;
 }
-.email-form-input{
+
+.email-form-input {
     display: flex;
     flex-direction: column;
     justify-content: start;
     gap: 10px;
     margin: 0;
 }
-.email-form-input label{
+
+.email-form-input label {
     color: white;
     font-family: com-l;
     font-size: 20px;
 }
-.email-form-input input{
+
+.email-form-input input {
     background-color: white;
     height: 40px;
     border-radius: 0;
@@ -1761,10 +1784,12 @@ main{
     font-size: 20px;
     color: var(--black);
 }
+
 .email-form-input label,
 .email-form-input input {
     margin: 0;
 }
+
 .contact-form .btn-primary {
     width: 100%;
     padding: 10px;
@@ -1773,15 +1798,15 @@ main{
     border-radius: 0;
 }
 
-
-.tour-reviews h1{
+.tour-reviews h1 {
     font-family: yes-bold;
     font-size: 48px;
     color: var(--blue);
     text-align: center;
 }
-@media (max-width: 600px){
-    .tour-reviews h1{
+
+@media (max-width: 600px) {
+    .tour-reviews h1 {
         font-family: yes-bold;
         font-size: 30px;
         color: var(--blue);
@@ -1790,7 +1815,10 @@ main{
     }
 }
 
-
-.plusses-ul{
+.plusses-ul {
     display: none;
+}
+
+.swiper-wrapper {
+    height: auto !important;
 }
