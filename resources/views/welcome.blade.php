@@ -186,7 +186,7 @@
                 @auth
                     <button class="btn btn-primaryy" data-bs-toggle="modal" data-bs-target="#review-modal">Оставить отзыв</button>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-primary">Войдите, чтобы оставить отзыв</a>
+                    <button class="btn btn-primaryy" >Войдите,чтобы оставить отзыв</button>
                 @endauth
             </div>
 
