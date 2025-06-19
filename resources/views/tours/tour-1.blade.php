@@ -11,7 +11,7 @@
                 <p>Сопровождение сертифицированного гида 24/7 обеспечит безопасность и поддержку. Дополнят программу сап-прогулки, посиделки у костра и другие активности, делающие тур насыщенным и запоминающимся.</p>
             </div>
             <div class="video-container">
-                <video width="740" controls>
+                <video width="740" controls autoplay muted>
                     <source src="{{ asset('videos/tour-1.mp4') }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>

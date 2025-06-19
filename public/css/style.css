@@ -655,6 +655,7 @@ main{
         display: flex;
         flex-direction: column;
         gap: 20px;
+        margin-bottom: 30px;
     }
     .plusses-ul ul li{
         margin: 0;
@@ -809,7 +810,8 @@ main{
 
 @media (max-width: 768px) {
     .instructor-card {
-        height: 250px;
+        height: 500px;
+        width: 80%;
     }
     .instructor-overlay h3 {
         font-size: 1.2rem;
@@ -1720,6 +1722,19 @@ main{
     max-width: 500px;
     text-align: center;
 }
+@media (max-width: 600px) {
+    .contact-form img {
+        display: none;
+    }
+    .contact-form h2 {
+        font-size: 24px;
+        font-family: com-med;
+        margin-top: 30px;
+    }
+    .needs-validation{
+        gap: 30px;
+    }
+}
 .needs-validation{
     display: flex;
     flex-direction: column;
@@ -1764,6 +1779,15 @@ main{
     font-size: 48px;
     color: var(--blue);
     text-align: center;
+}
+@media (max-width: 600px){
+    .tour-reviews h1{
+        font-family: yes-bold;
+        font-size: 30px;
+        color: var(--blue);
+        text-align: center;
+        width: 80%;
+    }
 }
 
 
