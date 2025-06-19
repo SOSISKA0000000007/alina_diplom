@@ -120,6 +120,15 @@
                     <span>Три гостевых домика у моря</span>
                 </div>
             </div>
+            <div class="plusses-ul">
+                <ul>
+                    <li>На протяжении всего отдыха личный транспорт</li>
+                    <li>Завтрак, обед и ужин</li>
+                    <li>Личный инструктор на протяжении всего отдыха</li>
+                    <li>Теплые вечера у костра, прогулки у моря</li>
+                    <li>Три гостевых домика у моря</li>
+                </ul>
+            </div>
         </div>
     </section>
 
@@ -171,11 +180,11 @@
 
     <section class="container">
         <div class="tour-reviews">
-            <h1>ОТЗЫВЫ О ТУРАХ</h1>
+            <h1>С НАМИ ПОГРУЗИЛИСЬ БОЛЕЕ 1000 ВЗРОСЛЫХ И ДЕТЕЙ</h1>
             <div id="reviews-container"></div>
             <div class="reviews-controls">
                 @auth
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#review-modal">Оставить отзыв</button>
+                    <button class="btn btn-primaryy" data-bs-toggle="modal" data-bs-target="#review-modal">Оставить отзыв</button>
                 @else
                     <a href="{{ route('login') }}" class="btn btn-primary">Войдите, чтобы оставить отзыв</a>
                 @endauth

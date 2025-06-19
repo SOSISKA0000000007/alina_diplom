@@ -50,12 +50,25 @@ class BookingController extends Controller
             ], 422);
         }
 
+        // Получаем цену тура
+        $price = \App\Models\Price::where('tour_id', $tourId)->first();
+        if (!$price) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Цена для этого тура не найдена.'
+            ], 422);
+        }
+
+        // Вычисляем итоговую стоимость
+        $totalPrice = $price->sale_price * $request->people_count;
+
         // Создаем бронирование
         Booking::create([
             'user_id' => $userId,
             'tour_id' => $tourId,
             'tour_date_id' => $dateId,
             'people_count' => $request->people_count,
+            'total_price' => $totalPrice, // Сохраняем итоговую стоимость
             'status' => 'pending',
         ]);
 

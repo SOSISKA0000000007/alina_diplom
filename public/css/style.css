@@ -337,6 +337,12 @@ main{
     width: 100%;
     gap: 20px;
 }
+@media (max-width: 600px) {
+    .tours-row{
+        flex-wrap: wrap;
+        width: 80%;
+    }
+}
 
 .tours-card {
     width: 100%;
@@ -344,6 +350,7 @@ main{
 
 .tours-card-image {
     background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
 }
 
@@ -547,6 +554,7 @@ main{
 .plusses {
     background-image: url(../images/pluses.png);
     background-repeat: no-repeat;
+    background-position-x: center;
     background-size: cover;
     margin-top: 100px;
 }
@@ -585,7 +593,6 @@ main{
     color: var(--white);
     text-align: center;
 }
-
 @media (max-width: 1600px) {
     .plusses {
         margin-top: 60px;
@@ -630,6 +637,27 @@ main{
     }
     .plusses-wrapper span {
         font-size: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .plusses-contain {
+        display: none;
+    }
+    .plusses-ul{
+        display: flex !important;
+    }
+    .plusses-ul ul{
+        color: white;
+        font-size: 16px;
+        font-family: com-l;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .plusses-ul ul li{
+        margin: 0;
     }
 }
 
@@ -913,6 +941,7 @@ main{
     cursor: pointer;
     font-size: 14px;
 }
+
 
 .btn-primary:hover {
     background-color: var(--blue);
@@ -1264,6 +1293,17 @@ main{
     border-radius: 4px;
     cursor: pointer;
     width: 100%;
+    font-size: 16px;
+}
+
+.btn-primaryy {
+    background-color: var(--blue);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    width: 20%;
     font-size: 16px;
 }
 
@@ -1716,4 +1756,17 @@ main{
     background-color: rgba(207, 207, 207, 1);
     color: var(--blue);
     border-radius: 0;
+}
+
+
+.tour-reviews h1{
+    font-family: yes-bold;
+    font-size: 48px;
+    color: var(--blue);
+    text-align: center;
+}
+
+
+.plusses-ul{
+    display: none;
 }
